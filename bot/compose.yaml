@@ -1,0 +1,17 @@
+services:
+  chatbot:
+    build: .
+    # Samma namn som i k8s-manifestet och på GHCR, så att alla tre lägena kör samma image.
+    image: ghcr.io/lullow/docker-chatbot:v1
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      LLM_BASE_URL: http://host.docker.internal:11434/v1
+      LLM_MODEL: llama3.2:3b
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

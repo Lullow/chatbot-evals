@@ -1,0 +1,7 @@
+.git
+.claude
+k8s
+screenshots
+**/__pycache__
+*.md
+compose.yaml
